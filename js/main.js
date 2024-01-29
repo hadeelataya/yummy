@@ -1,17 +1,15 @@
-
-submitBtn = document.getElementById("submitBtn")
-let searchContainer = document.getElementById("searchContainer");
-let submitBtn;
 let rowData = document.getElementById("rowData");
-let nameInputTouched = false;
-let emailInputTouched = false;
-let phoneInputTouched = false;
-let ageInputTouched = false;
-let passwordInputTouched = false;
-let repasswordInputTouched = false;
+let searchContainer = document.getElementById("searchContainer");
 
+let submitBtn;
 
+$(document).ready(() => {
+    searchByName("").then(() => {
+        $(".loading").fadeOut(1000)
+        $("body").css("overflow", "visible")
 
+    })
+})
 
 function openSideNav() {
     $(".side-nav-menu").animate({
@@ -54,14 +52,6 @@ $(".side-nav-menu i.open-close-icon").click(() => {
     }
 })
 
-
-$(document).ready(() => {
-    searchByName("").then(() => {
-        $(".loading").fadeOut(1000)
-        $("body").css("overflow", "auto")
-
-    })
-})
 
 
 
@@ -117,6 +107,104 @@ function displayCategories(arr) {
     }
 
     rowData.innerHTML = cartoona
+}
+
+
+async function getArea() {
+    rowData.innerHTML = ""
+    $(".inner-loading-screen").fadeIn(300)
+
+    searchContainer.innerHTML = "";
+
+    let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?a=list`)
+    respone = await respone.json()
+    console.log(respone.meals);
+
+    displayArea(respone.meals)
+    $(".inner-loading-screen").fadeOut(300)
+
+}
+
+
+function displayArea(arr) {
+    let cartoona = "";
+
+    for (let i = 0; i < arr.length; i++) {
+        cartoona += `
+        <div class="col-md-3">
+                <div onclick="getAreaMeals('${arr[i].strArea}')" class="rounded-2 text-center cursor-pointer">
+                        <i class="fa-solid fa-house-laptop fa-4x"></i>
+                        <h3>${arr[i].strArea}</h3>
+                </div>
+        </div>
+        `
+    }
+
+    rowData.innerHTML = cartoona
+}
+
+
+async function getIngredients() {
+    rowData.innerHTML = ""
+    $(".inner-loading-screen").fadeIn(300)
+
+    searchContainer.innerHTML = "";
+
+    let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?i=list`)
+    respone = await respone.json()
+    console.log(respone.meals);
+
+    displayIngredients(respone.meals.slice(0, 20))
+    $(".inner-loading-screen").fadeOut(300)
+
+}
+
+
+function displayIngredients(arr) {
+    let cartoona = "";
+
+    for (let i = 0; i < arr.length; i++) {
+        cartoona += `
+        <div class="col-md-3">
+                <div onclick="getIngredientsMeals('${arr[i].strIngredient}')" class="rounded-2 text-center cursor-pointer">
+                        <i class="fa-solid fa-drumstick-bite fa-4x"></i>
+                        <h3>${arr[i].strIngredient}</h3>
+                        <p>${arr[i].strDescription.split(" ").slice(0,20).join(" ")}</p>
+                </div>
+        </div>
+        `
+    }
+
+    rowData.innerHTML = cartoona
+}
+
+
+async function getCategoryMeals(category) {
+    rowData.innerHTML = ""
+    $(".inner-loading-screen").fadeIn(300)
+
+    let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+    response = await response.json()
+
+
+    displayMeals(response.meals.slice(0, 20))
+    $(".inner-loading-screen").fadeOut(300)
+
+}
+
+
+
+async function getAreaMeals(area) {
+    rowData.innerHTML = ""
+    $(".inner-loading-screen").fadeIn(300)
+
+    let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`)
+    response = await response.json()
+
+
+    displayMeals(response.meals.slice(0, 20))
+    $(".inner-loading-screen").fadeOut(300)
+
 }
 
 
@@ -200,102 +288,6 @@ function displayMealDetails(meal) {
 
     rowData.innerHTML = cartoona
 }
-
-
-async function getArea() {
-    rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
-    searchContainer.innerHTML = "";
-    let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?a=list`)
-    respone = await respone.json()
-    console.log(respone.meals);
-    displayArea(respone.meals)
-    $(".inner-loading-screen").fadeOut(300)
-
-}
-
-
-function displayArea(arr) {
-    let cartoona = "";
-    for (let i = 0; i < arr.length; i++) {
-        cartoona += `
-        <div class="col-md-3">
-                <div onclick="getAreaMeals('${arr[i].strArea}')" class="rounded-2 text-center cursor-pointer">
-                        <i class="fa-solid fa-house-flag fa-4x"></i>
-                        <h3>${arr[i].strArea}</h3>
-                </div>
-        </div>
-        `
-    }
-
-    rowData.innerHTML = cartoona
-}
-
-
-async function getIngredients() {
-    rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
-
-    searchContainer.innerHTML = "";
-
-    let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?i=list`)
-    respone = await respone.json()
-    console.log(respone.meals);
-
-    displayIngredients(respone.meals.slice(0, 20))
-    $(".inner-loading-screen").fadeOut(300)
-
-}
-
-
-function displayIngredients(arr) {
-    let cartoona = "";
-
-    for (let i = 0; i < arr.length; i++) {
-        cartoona += `
-        <div class="col-md-3">
-                <div onclick="getIngredientsMeals('${arr[i].strIngredient}')" class="rounded-2 text-center cursor-pointer">
-                        <i class="fa-solid fa-utensils fa-4x"></i>
-                        <h3>${arr[i].strIngredient}</h3>
-                        <p>${arr[i].strDescription.split(" ").slice(0,20).join(" ")}</p>
-                </div>
-        </div>
-        `
-    }
-
-    rowData.innerHTML = cartoona
-}
-
-
-async function getCategoryMeals(category) {
-    rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
-
-    let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
-    response = await response.json()
-
-
-    displayMeals(response.meals.slice(0, 20))
-    $(".inner-loading-screen").fadeOut(300)
-
-}
-
-
-
-async function getAreaMeals(area) {
-    rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
-
-    let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`)
-    response = await response.json()
-
-
-    displayMeals(response.meals.slice(0, 20))
-    $(".inner-loading-screen").fadeOut(300)
-
-}
-
-
 
 
 function showSearchInputs() {
@@ -384,7 +376,7 @@ function showContacts() {
         <button id="submitBtn" disabled class="btn btn-outline-danger px-2 mt-3">Submit</button>
     </div>
 </div> `
-   
+    submitBtn = document.getElementById("submitBtn")
 
 
     document.getElementById("nameInput").addEventListener("focus", () => {
@@ -412,7 +404,12 @@ function showContacts() {
     })
 }
 
-
+let nameInputTouched = false;
+let emailInputTouched = false;
+let phoneInputTouched = false;
+let ageInputTouched = false;
+let passwordInputTouched = false;
+let repasswordInputTouched = false;
 
 
 
