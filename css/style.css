@@ -3,13 +3,13 @@ body{
     color: #f9f6f6 !important;
     overflow: hidden;
 }
-canvas{
+/* canvas{
     position: fixed;
     background-color: #202327;
     top: 0;
     left: 0;
     z-index: -31;
-    }
+    } */
 
 .nav-tab{
     background-color: #0D0D0D;

@@ -78,14 +78,14 @@ function displayMeals(arr) {
 
 async function getCategories() {
     rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
+    $(".inner-loading").fadeIn(300)
     searchContainer.innerHTML = "";
 
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
     response = await response.json()
 
     displayCategories(response.categories)
-    $(".inner-loading-screen").fadeOut(300)
+    $(".inner-loading").fadeOut(300)
 
 }
 
@@ -112,7 +112,7 @@ function displayCategories(arr) {
 
 async function getArea() {
     rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
+    $(".inner-loading").fadeIn(300)
 
     searchContainer.innerHTML = "";
 
@@ -121,7 +121,7 @@ async function getArea() {
     console.log(respone.meals);
 
     displayArea(respone.meals)
-    $(".inner-loading-screen").fadeOut(300)
+    $(".inner-loading").fadeOut(300)
 
 }
 
@@ -146,7 +146,7 @@ function displayArea(arr) {
 
 async function getIngredients() {
     rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
+    $(".inner-loading").fadeIn(300)
 
     searchContainer.innerHTML = "";
 
@@ -155,7 +155,7 @@ async function getIngredients() {
     console.log(respone.meals);
 
     displayIngredients(respone.meals.slice(0, 20))
-    $(".inner-loading-screen").fadeOut(300)
+    $(".inner-loading").fadeOut(300)
 
 }
 
@@ -181,14 +181,14 @@ function displayIngredients(arr) {
 
 async function getCategoryMeals(category) {
     rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
+    $(".inner-loading").fadeIn(300)
 
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
     response = await response.json()
 
 
     displayMeals(response.meals.slice(0, 20))
-    $(".inner-loading-screen").fadeOut(300)
+    $(".inner-loading").fadeOut(300)
 
 }
 
@@ -196,42 +196,42 @@ async function getCategoryMeals(category) {
 
 async function getAreaMeals(area) {
     rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
+    $(".inner-loading").fadeIn(300)
 
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`)
     response = await response.json()
 
 
     displayMeals(response.meals.slice(0, 20))
-    $(".inner-loading-screen").fadeOut(300)
+    $(".inner-loading").fadeOut(300)
 
 }
 
 
 async function getIngredientsMeals(ingredients) {
     rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
+    $(".inner-loading").fadeIn(300)
 
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredients}`)
     response = await response.json()
 
 
     displayMeals(response.meals.slice(0, 20))
-    $(".inner-loading-screen").fadeOut(300)
+    $(".inner-loading").fadeOut(300)
 
 }
 
 async function getMealDetails(mealID) {
     closeSideNav()
     rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
+    $(".inner-loading").fadeIn(300)
 
     searchContainer.innerHTML = "";
     let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`);
     respone = await respone.json();
 
     displayMealDetails(respone.meals[0])
-    $(".inner-loading-screen").fadeOut(300)
+    $(".inner-loading").fadeOut(300)
 
 }
 
@@ -307,27 +307,27 @@ function showSearchInputs() {
 async function searchByName(term) {
     closeSideNav()
     rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
+    $(".inner-loading").fadeIn(300)
 
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
     response = await response.json()
 
     response.meals ? displayMeals(response.meals) : displayMeals([])
-    $(".inner-loading-screen").fadeOut(300)
+    $(".inner-loading").fadeOut(300)
 
 }
 
 async function searchByFLetter(term) {
     closeSideNav()
     rowData.innerHTML = ""
-    $(".inner-loading-screen").fadeIn(300)
+    $(".inner-loading").fadeIn(300)
 
     term == "" ? term = "a" : "";
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${term}`)
     response = await response.json()
 
     response.meals ? displayMeals(response.meals) : displayMeals([])
-    $(".inner-loading-screen").fadeOut(300)
+    $(".inner-loading").fadeOut(300)
 
 }
 
